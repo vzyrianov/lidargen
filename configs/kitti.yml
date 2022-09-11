@@ -1,0 +1,72 @@
+training:
+  batch_size: 3 # training stage batch size
+  n_epochs: 500000
+  n_iters: 300001
+  snapshot_freq: 2000 # 5000
+  snapshot_sampling: false
+  anneal_power: 2
+  log_all_sigmas: false
+
+sampling:
+  batch_size: 8 # sampling batch size -- adjust based on your GPU memory
+  data_init: false # set it to be false during sampling, only use during debugging
+  step_lr: 0.0000062 # do not change
+  n_steps_each: 5 # do not change
+  ckpt_id: 100000 # checkpoint id
+  final_only: true # store the full difussion process or the final sample only; works only under non fid mode
+  fid: false # batch sample large-scale data for FID evaluation
+  denoise: true # final denoising step
+  num_samples4fid: 8 # number of batch samples
+  inpainting: false # conduct inpainting task
+  interpolation: false # conduct view interpolation task
+  densification: false # conduct densification task
+  diverse: true # diverse -- only used for densification
+  n_interpolations: 15 # interpolation params.
+
+fast_fid:
+  batch_size: 1000
+  num_samples: 1000
+  step_lr: 0.0000062
+  n_steps_each: 5
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  verbose: false
+  ensemble: false
+
+test:
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  batch_size: 100
+
+data:
+  dataset: "KITTI"
+  image_size: 64
+  image_width: 1024
+  channels: 2
+  logit_transform: false
+  uniform_dequantization: false
+  gaussian_dequantization: false
+  random_flip: true
+  random_roll: false
+  rescaled: false
+  num_workers: 4
+
+model:
+  sigma_begin: 50 # init noise
+  num_classes: 232
+  ema: true
+  ema_rate: 0.999
+  spec_norm: false
+  sigma_dist: geometric
+  sigma_end: 0.01 # final noise --> should be smaller for next version
+  normalization: InstanceNorm++
+  nonlinearity: elu
+  ngf: 128
+
+optim:
+  weight_decay: 0.0000 # revisit the weight decay as it might help with preventing nan issue
+  optimizer: "Adam"
+  lr: 0.0001
+  beta1: 0.9
+  amsgrad: false
+  eps: 0.00000001

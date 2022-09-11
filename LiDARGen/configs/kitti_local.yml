@@ -1,0 +1,70 @@
+training:
+  batch_size: 4
+  n_epochs: 500000
+  n_iters: 300001
+  snapshot_freq: 5000 # 5000
+  snapshot_sampling: false
+  anneal_power: 2
+  log_all_sigmas: false
+
+sampling:
+  batch_size: 8
+  data_init: false
+  step_lr: 0.0000062
+  n_steps_each: 5
+  ckpt_id: 110000
+  final_only: false
+  fid: true
+  denoise: true
+  num_samples4fid: 20000
+  inpainting: false
+  interpolation: false
+  n_interpolations: 15
+
+fast_fid:
+  batch_size: 1000
+  num_samples: 1000
+  step_lr: 0.0000062
+  n_steps_each: 5
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  verbose: false
+  ensemble: false
+
+test:
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  batch_size: 100
+
+data:
+  dataset: "KITTI"
+  image_size: 64
+  image_width: 1024
+  channels: 2
+  logit_transform: false
+  uniform_dequantization: false
+  gaussian_dequantization: false
+  random_flip: true
+  random_roll: false
+  rescaled: false
+  num_workers: 4
+
+model:
+  sigma_begin: 50
+  num_classes: 232
+  ema: true
+  ema_rate: 0.999
+  spec_norm: false
+  sigma_dist: geometric
+  sigma_end: 0.01
+  normalization: InstanceNorm++
+  nonlinearity: elu
+  ngf: 128
+
+optim:
+  weight_decay: 0.000
+  optimizer: "Adam"
+  lr: 0.0001
+  beta1: 0.9
+  amsgrad: false
+  eps: 0.00000001
