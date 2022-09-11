@@ -1,16 +1,7 @@
-# Score-Based Generative Models for LIDAR Generation
 
-This repo contains modification of the the official implementation for the paper [Improved Techniques for Training Score-Based Generative Models](http://arxiv.org/abs/2006.09011). 
+This repo contains LiDARGen modifications to the the official implementation for the paper [Improved Techniques for Training Score-Based Generative Models](http://arxiv.org/abs/2006.09011). 
 
 ## Running Experiments
-
-### Dependencies
-
-Run the following to install all necessary python packages for our code.
-
-```bash
-pip install -r requirements.txt
-```
 
 ### Training
 
