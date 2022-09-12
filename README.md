@@ -1,22 +1,32 @@
-# Learning to Generate Realistic LiDAR Point Clouds (LiDARGen)
+# Learning to Generate Realistic LiDAR Point Clouds (LiDARGen) [Paper](https://arxiv.org/abs/2204.13696)
 
 This repository contains the official implementation of our paper [Learning to Generate Realistic LiDAR Point Clouds](http://www.zyrianov.org/lidargen). 
 
+## Usage
 
-## Set up KITTI-360
+### Environment
+Install all python packages for training and evaluation with conda environment setup file: 
+```bash
+conda env create -f environment.yml
+conda activate lidar3
+```
+
+### Set up KITTI-360
 
 1. Download KITTI-360 from [http://www.cvlibs.net/datasets/kitti-360/](http://www.cvlibs.net/datasets/kitti-360/) (only the 3D LiDAR readings are required)
 1. Set the KITTI360\_DATASET environment variable to the KITTI360 dataset path. `export KITTI360_DATASET=/path/to/dataset/KITTI-360/`.
 
-
-## Sampling from Pretrained KITTI-360 model
+### Sampling from Pretrained KITTI-360 model
 1. Clone this repository and navigate to the project root directory
 1. Download the pretrained model: `curl -L https://uofi.box.com/shared/static/ahnc453qpx6pa8o7ikt2rllr3cavwcob --output kitti_pretrained.tar.gz`
 1. Extract the model: `tar -xzvf kitti_pretrained.tar.gz`
 1. Setup conda environment: `conda env create --name lidargen --file=environment.yml`
 1. Sample with `python lidargen.py --sample --exp kitti_pretrained --config kitti.yml`
 
-## FID
+
+## Metrics
+
+### FID
 Running FID requires downloading the 1024 backbone file for rangenet++ the following [link](http://www.ipb.uni-bonn.de/html/projects/bonnetal/lidar/semantic/models/darknet53-1024.tar.gz)  and extracting it to the folder rangenetpp/lidar\_bonnetal\_master/darknet53-1024. This model is provided by the [RangeNet++ repository](https://github.com/PRBonn/lidar-bonnetal). Finally, lidargen needs to be run with the --fid option. This can be done by running the following commands:  
 
 1. `curl -L http://www.ipb.uni-bonn.de/html/projects/bonnetal/lidar/semantic/models/darknet53-1024.tar.gz --output darknet53-1024.tar.gz`
@@ -65,13 +75,13 @@ To calculate IOU run:
 1. `python lidargen.py --iou --exp kitti_pretrained --config kitti.yml`
 
 
-# Samples
+## Samples
 
-## 14k Samples
+### 14k Samples
 
 We provide a collection of 14,375 samples for research purposes here: [14K LiDARGen Samples](https://uofi.app.box.com/s/o3fdyrgdrsq5t108zvryt9ehnl06nicd/file/994876813141). 
 
-## Baselines and ECCV'22 Benchmark Samples
+### Baselines and ECCV'22 Benchmark Samples
 
 We provide the LiDARGen and baseline samples used for performing the FID evaluation in our paper. The FID scores have marginal differences from the paper due to the random sampling performed to make FID calculation for RangeNet++ features possible. 
 
@@ -92,10 +102,22 @@ Samples are available at this [link](https://uofi.box.com/shared/static/kmfe6aln
 1. `python lidargen.py --fid --fid_folder1 pc_projectedgan_fid`
 
 
-# Additional Information
+## Additional Information
 
-## Range Image .pth format
+### Range Image .pth format
 
 LiDARGen represents LiDAR readings in a range image format (i.e., a 360 degree depth map with an additional intensity layer). These range images are normalized into a `[0, 1]` range with the transform `range_normalized = (np.log2(range_unnormalized+1)) / 6`.
 
 When sampling or densification is performed, LiDARGen generates .pth files. These are serialized PyTorch tensors which can be loaded with `range_im = torch.load('filename.pth')`. The shape of this tensor is typically `[2, 64, 1024]` where the dimension represent `[channel, height, width]`. The range image depth value can be converted into a meter format by running `range_unnormalized = torch.exp2(range_im[0]*6) - 1`
+
+
+## Bibtex
+
+```
+@inproceedings{zyrianov2022learning,
+  title={Learning to Generate Realistic LiDAR Point Cloud},
+  author={Zyrianov, Vlas and Zhu, Xiyue and Wang, Shenlong},
+  booktitle={ECCV},
+  year={2022}
+}
+```
