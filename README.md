@@ -1,4 +1,4 @@
-# Learning to Generate Realistic LiDAR Point Clouds (LiDARGen) [Paper](https://arxiv.org/abs/2204.13696)
+# Learning to Generate Realistic LiDAR Point Clouds (LiDARGen) [Paper](https://arxiv.org/abs/2209.03954)
 
 This repository contains the official implementation of our paper [Learning to Generate Realistic LiDAR Point Clouds](http://www.zyrianov.org/lidargen). 
 
